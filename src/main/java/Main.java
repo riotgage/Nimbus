@@ -2,6 +2,8 @@ import commands.CommandFactory;
 import io.ConsoleInputHandler;
 import io.ConsoleOutputHandler;
 
+import java.util.Locale;
+
 public class Main {
     
     private final CommandProcessor commandProcessor;
@@ -13,7 +15,7 @@ public class Main {
     public void start() {
         while (true) {
             String input = inputHandler.readInput();
-            if (exitCommand.equalsIgnoreCase(input)) {
+            if (exitCommand.contains(input.toLowerCase())) {
                 return;
             }
             try {
@@ -40,7 +42,7 @@ public class Main {
         ConsoleInputHandler inputHandler = new ConsoleInputHandler();
         ConsoleOutputHandler outputHandler = new ConsoleOutputHandler();
     
-        Main nimbus = new Main(commandProcessor, inputHandler, outputHandler, "exit");
+        Main nimbus = new Main(commandProcessor, inputHandler, outputHandler, "exit 0");
         nimbus.start();
     }
 }
