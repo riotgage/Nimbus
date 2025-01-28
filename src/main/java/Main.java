@@ -14,7 +14,7 @@ public class Main {
         while (true) {
             String input = inputHandler.readInput();
             if (exitCommand.equalsIgnoreCase(input)) {
-                break;
+                return;
             }
             try {
                 String result = commandProcessor.process(input);

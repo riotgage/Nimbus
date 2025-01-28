@@ -12,8 +12,6 @@ public class CommandProcessor {
 	
 	public String process(String input) {
 		// Split input into command and arguments
-		// As of now only one param can be passed
-		// e.g. echo Hello
 		String[] parts = input.trim().split("\\s+", 2);
 		String commandName = parts[0];
 		String arguments = parts.length > 1 ? parts[1] : null;
