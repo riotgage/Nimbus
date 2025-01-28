@@ -2,7 +2,7 @@ import commands.CommandFactory;
 import io.ConsoleInputHandler;
 import io.ConsoleOutputHandler;
 
-public class Nimbus {
+public class Main {
     
     private final CommandProcessor commandProcessor;
     
@@ -26,7 +26,7 @@ public class Nimbus {
     }
     
     
-    public Nimbus(CommandProcessor commandProcessor, ConsoleInputHandler inputHandler, ConsoleOutputHandler outputHandler,
+    public Main(CommandProcessor commandProcessor, ConsoleInputHandler inputHandler, ConsoleOutputHandler outputHandler,
             String exitCommand) {
         this.commandProcessor = commandProcessor;
         this.inputHandler = inputHandler;
@@ -40,7 +40,7 @@ public class Nimbus {
         ConsoleInputHandler inputHandler = new ConsoleInputHandler();
         ConsoleOutputHandler outputHandler = new ConsoleOutputHandler();
     
-        Nimbus nimbus = new Nimbus(commandProcessor, inputHandler, outputHandler, "exit");
+        Main nimbus = new Main(commandProcessor, inputHandler, outputHandler, "exit");
         nimbus.start();
     }
 }
