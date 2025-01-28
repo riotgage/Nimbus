@@ -1,0 +1,66 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Shell {
+    - CommandProcessor commandProcessor
+    + start(): void
+}
+
+class CommandProcessor {
+    - CommandFactory commandFactory
+    + process(input: String): String
+}
+
+interface Command {
+    + execute(): String
+}
+
+interface ArgumentCommand {
+    + withArguments(arguments: String): Command
+}
+
+Command <|-- ArgumentCommand
+Command <|-- HelpCommand
+Command <|-- EchoCommand
+
+class HelpCommand {
+    + execute(): String
+}
+
+class EchoCommand {
+    - message: String
+    + withArguments(arguments: String): Command
+    + execute(): String
+}
+
+class CommandFactory {
+    - Map<String, Command> commandRegistry
+    + createCommand(input: String): Command
+}
+
+interface InputHandler {
+    + readInput(): String
+}
+
+class ConsoleInputHandler {
+    + readInput(): String
+}
+
+InputHandler <|-- ConsoleInputHandler
+
+interface OutputHandler {
+    + printOutput(output: String): void
+}
+
+class ConsoleOutputHandler {
+    + printOutput(output: String): void
+}
+
+OutputHandler <|-- ConsoleOutputHandler
+
+Shell --> CommandProcessor
+CommandProcessor --> CommandFactory
+CommandFactory --> Command
+Shell --> InputHandler
+Shell --> OutputHandler
+@enduml
