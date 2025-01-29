@@ -32,7 +32,7 @@ public class TypeCommand implements ArgumentCommand {
 		else{
 			String commandPath = findCommandInPath(commandName);
 			if (commandPath != null) {
-				return commandName + " is located at: " + commandPath;
+				return commandName + " is " + commandPath;
 			}
 			
 		}
