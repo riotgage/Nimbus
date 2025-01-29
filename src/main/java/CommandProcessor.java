@@ -1,6 +1,7 @@
 import commands.ArgumentCommand;
 import commands.Command;
 import commands.CommandFactory;
+import commands.ExternalCommand;
 
 public class CommandProcessor {
 	
@@ -22,9 +23,16 @@ public class CommandProcessor {
 			return commandName+": command not found";
 		}
 		else if (command instanceof ArgumentCommand argumentCommand) {
+			
+			
+			if (command instanceof ExternalCommand){
+				return ((ExternalCommand) command).withArguments(input).execute();
+			}
+			
 			if (arguments == null) {
 				throw new IllegalArgumentException("Missing arguments for command: " + commandName);
 			}
+			
 			command = argumentCommand.withArguments(arguments);
 		}
 		

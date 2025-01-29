@@ -1,5 +1,7 @@
 package commands;
 
+import utils.CommandUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +20,15 @@ public class CommandFactory implements CommandRegistry{
 	
 	public Command createCommand(String commandName) {
 		Command command = commands.get(commandName);
-
+	
+		// this is not a built in command
+		// check if it is available in PATH
+		if(command==null){
+			String commandPath = CommandUtils.findCommandInPath(commandName);
+			if (commandPath!=null){
+				return new ExternalCommand();
+			}
+		}
 		return command;
 	}
 	
