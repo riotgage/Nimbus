@@ -7,7 +7,6 @@ import java.util.Locale;
 public class Main {
     
     private final CommandProcessor commandProcessor;
-    
     private final ConsoleInputHandler inputHandler;
     private final ConsoleOutputHandler outputHandler;
     private final String exitCommand;
@@ -15,9 +14,6 @@ public class Main {
     public void start() {
         while (true) {
             String input = inputHandler.readInput();
-            if (exitCommand.contains(input.toLowerCase())) {
-                return;
-            }
             try {
                 String result = commandProcessor.process(input);
                 outputHandler.printOutput(result);
@@ -37,12 +33,12 @@ public class Main {
     }
     
     public static void main(String[] args){
+        
         CommandFactory commandFactory = new CommandFactory();
         CommandProcessor commandProcessor = new CommandProcessor(commandFactory);
         ConsoleInputHandler inputHandler = new ConsoleInputHandler();
         ConsoleOutputHandler outputHandler = new ConsoleOutputHandler();
-    
-        Main nimbus = new Main(commandProcessor, inputHandler, outputHandler, "exit 0");
+        Main nimbus = new Main(commandProcessor, inputHandler, outputHandler, "exit");
         nimbus.start();
     }
 }
