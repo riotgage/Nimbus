@@ -20,9 +20,8 @@ public class CdCommand implements ArgumentCommand{
 		
 		ShellContext context = ShellContext.getINSTANCE();
 		
-		Path newPath = Paths.get(targetDirectory).isAbsolute() ?
-				Paths.get(targetDirectory)
-				: context.getCurrentDirectory().resolve(targetDirectory).normalize();
+		Path newPath = resolvePath(targetDirectory,context);
+		
 		
 		if (Files.exists(newPath) && Files.isDirectory(newPath)) {
 			context.setCurrentDirectory(newPath);
@@ -30,5 +29,19 @@ public class CdCommand implements ArgumentCommand{
 		} else {
 			return "cd: " + targetDirectory + ": No such file or directory";
 		}
+	}
+	
+	private Path resolvePath(String targetDirectory, ShellContext context) {
+		
+		if(targetDirectory.equals("~"))return Paths.get(System.getProperty("user.home"));
+		
+		if (targetDirectory.startsWith("~/"))
+			return Paths.get(System.getProperty("user.home")).resolve(targetDirectory.substring(2)).normalize();
+		
+		Path path = Paths.get(targetDirectory);
+		
+		return  path.isAbsolute() ?
+				path
+				: context.getCurrentDirectory().resolve(targetDirectory).normalize();
 	}
 }
