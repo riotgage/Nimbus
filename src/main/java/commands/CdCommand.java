@@ -33,10 +33,16 @@ public class CdCommand implements ArgumentCommand{
 	
 	private Path resolvePath(String targetDirectory, ShellContext context) {
 		
-		if(targetDirectory.equals("~"))return Paths.get(System.getProperty("user.home"));
+		String homeDir = System.getenv("HOME");  // ✅ Fetch home directory from environment
+		if (homeDir == null || homeDir.isEmpty()) {
+			homeDir = System.getProperty("user.home"); // Fallback in case HOME is not set
+		}
+		
+		Path homePath = Paths.get(homeDir);
+		if(targetDirectory.equals("~"))return homePath;
 		
 		if (targetDirectory.startsWith("~/"))
-			return Paths.get(System.getProperty("user.home")).resolve(targetDirectory.substring(2)).normalize();
+			return homePath.resolve(targetDirectory.substring(2)).normalize();
 		
 		Path path = Paths.get(targetDirectory);
 		
