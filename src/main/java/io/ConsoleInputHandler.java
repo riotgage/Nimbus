@@ -1,5 +1,7 @@
 package io;
 
+import utils.ShellContext;
+
 import java.util.Scanner;
 
 public class ConsoleInputHandler implements InputHandler{

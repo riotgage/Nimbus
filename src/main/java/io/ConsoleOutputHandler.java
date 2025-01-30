@@ -4,6 +4,7 @@ public class ConsoleOutputHandler implements OutputHandler{
 	
 	@Override
 	public void printOutput(String output) {
-		System.out.println(output);
+		if(output !=null && !output.isEmpty())
+			System.out.println(output);
 	}
 }

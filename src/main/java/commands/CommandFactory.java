@@ -15,6 +15,8 @@ public class CommandFactory implements CommandRegistry{
 		commands.put("echo", new EchoCommand());
 		commands.put("type",new TypeCommand(this));
 		commands.put("exit",new ExitCommand());
+		commands.put("pwd",new PwdCommand());
+		commands.put("cd",new CdCommand());
 		// Add more commands as needed
 	}
 	

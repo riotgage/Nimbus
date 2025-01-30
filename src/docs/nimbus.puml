@@ -1,8 +1,11 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-class Shell {
+class Main {
     - CommandProcessor commandProcessor
+    - exitCommand: String
+    - inputHandler: InputHandler
+    - outputHandler: OutputHandler
     + start(): void
 }
 
@@ -20,15 +23,30 @@ interface ArgumentCommand {
 }
 
 Command <|-- ArgumentCommand
-Command <|-- HelpCommand
 Command <|-- EchoCommand
-
-class HelpCommand {
-    + execute(): String
-}
+Command <|-- ExitCommand
+Command <|-- ExternalCommand
+Command <|-- TypeCommand
 
 class EchoCommand {
     - message: String
+    + withArguments(arguments: String): Command
+    + execute(): String
+}
+
+class ExitCommand {
+    + withArguments(arguments: String): Command
+    + execute(): String
+}
+
+class ExternalCommand {
+    - buildCommand(): List<String>
+    + withArguments(arguments: String): Command
+    + execute(): String
+}
+
+class TypeCommand {
+    + TypeCommand(commandRegistry: Map<String, Command>)
     + withArguments(arguments: String): Command
     + execute(): String
 }
@@ -58,9 +76,17 @@ class ConsoleOutputHandler {
 
 OutputHandler <|-- ConsoleOutputHandler
 
-Shell --> CommandProcessor
+class CommandUtils {
+    <<static>> + findCommandInPath(): String
+    <<static>> + getExecutableExtensions(): List<String>
+}
+
+TypeCommand ..> CommandUtils : Uses
+ExternalCommand ..> CommandUtils : Uses
+
+Main --> CommandProcessor
 CommandProcessor --> CommandFactory
 CommandFactory --> Command
-Shell --> InputHandler
-Shell --> OutputHandler
+Main --> InputHandler
+Main --> OutputHandler
 @enduml
