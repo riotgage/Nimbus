@@ -1,6 +1,8 @@
 package commands;
 
+import java.util.List;
+
 public interface ArgumentCommand extends Command{
-	Command withArguments(String arguments);
+	Command withArguments(List<String> arguments);
 
 }

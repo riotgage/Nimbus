@@ -3,6 +3,9 @@ import commands.Command;
 import commands.CommandFactory;
 import commands.ExternalCommand;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CommandProcessor {
 	
 	private final CommandFactory commandFactory;
@@ -13,9 +16,14 @@ public class CommandProcessor {
 	
 	public String process(String input) {
 		// Split input into command and arguments
-		String[] parts = input.trim().split("\\s+", 2);
-		String commandName = parts[0];
-		String arguments = parts.length > 1 ? parts[1] : null;
+		// Lets create a list of args so we can handle single quotes and double quotes efficiently
+		
+		List<String> tokens = tokenizeInput(input);
+		
+		if(tokens.isEmpty())return null;
+		
+		String commandName = tokens.get(0);
+		List<String> arguments = tokens.subList(1,tokens.size());
 		
 		Command command = commandFactory.createCommand(commandName);
 		
@@ -26,16 +34,42 @@ public class CommandProcessor {
 			
 			
 			if (command instanceof ExternalCommand){
-				return ((ExternalCommand) command).withArguments(input).execute();
+				command = ((ExternalCommand) command).withArguments(tokens);
 			}
-			
-			if (arguments == null) {
-				throw new IllegalArgumentException("Missing arguments for command: " + commandName);
+			else{
+				command = argumentCommand.withArguments(arguments);
 			}
-			
-			command = argumentCommand.withArguments(arguments);
 		}
 		
 		return command.execute();
+	}
+	
+	private List<String> tokenizeInput(String input) {
+		
+		List<String> tokens = new ArrayList<>();
+		StringBuilder currentToken = new StringBuilder();
+		boolean inSingleQuote = false;
+		
+		for (char ch: input.toCharArray()){
+			if (ch=='\''){
+				inSingleQuote = !inSingleQuote;
+				continue;
+			}
+			
+			if(Character.isWhitespace(ch) && !inSingleQuote){
+				if (currentToken.length()>0){
+					tokens.add(currentToken.toString());
+					currentToken.setLength(0);
+				}
+			}else{
+				currentToken.append(ch);
+			}
+		}
+		
+		if (currentToken.length()>0){
+			tokens.add(currentToken.toString());
+		}
+		
+		return tokens;
 	}
 }

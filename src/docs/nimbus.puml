@@ -22,12 +22,6 @@ interface ArgumentCommand {
     + withArguments(arguments: String): Command
 }
 
-Command <|-- ArgumentCommand
-Command <|-- EchoCommand
-Command <|-- ExitCommand
-Command <|-- ExternalCommand
-Command <|-- TypeCommand
-
 class EchoCommand {
     - message: String
     + withArguments(arguments: String): Command
@@ -47,6 +41,19 @@ class ExternalCommand {
 
 class TypeCommand {
     + TypeCommand(commandRegistry: Map<String, Command>)
+    + withArguments(arguments: String): Command
+    + execute(): String
+}
+
+class CdCommand {
+    + CdCommand()
+    + withArguments(arguments: String): Command
+    + execute(): String
+    - resolvePath(): Path
+}
+
+class PwdCommand {
+    + PwdCommand()
     + withArguments(arguments: String): Command
     + execute(): String
 }
@@ -80,13 +87,34 @@ class CommandUtils {
     <<static>> + findCommandInPath(): String
     <<static>> + getExecutableExtensions(): List<String>
 }
+class ShellContext {
+    - static ShellContext instance
+    - ShellContext()
+    + static ShellContext getInstance()
+    + void setCurrentDirectory(String data)
+    + String getCurrentDirectory()
+}
+
+ShellContext : getInstance() returns the singleTon instance
 
 TypeCommand ..> CommandUtils : Uses
 ExternalCommand ..> CommandUtils : Uses
+
+CdCommand ..> ShellContext : Uses
+PwdCommand ..> ShellContext : Uses
 
 Main --> CommandProcessor
 CommandProcessor --> CommandFactory
 CommandFactory --> Command
 Main --> InputHandler
 Main --> OutputHandler
+
+
+Command <|-- ArgumentCommand
+Command <|-- EchoCommand
+Command <|-- ExitCommand
+Command <|-- ExternalCommand
+Command <|-- TypeCommand
+Command <|-- CdCommand
+Command <|-- PwdCommand
 @enduml

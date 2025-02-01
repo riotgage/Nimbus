@@ -1,11 +1,13 @@
 package commands;
 
+import java.util.List;
+
 public class ExitCommand implements ArgumentCommand{
 	
 	private String exitCode;
 	@Override
-	public Command withArguments(String arguments) {
-		this.exitCode=arguments;
+	public Command withArguments(List<String> arguments) {
+		this.exitCode=arguments.get(0);
 		return this;
 	}
 	

@@ -1,6 +1,9 @@
 package commands;
 
 import utils.CommandUtils;
+
+import java.util.List;
+
 public class TypeCommand implements ArgumentCommand {
 	
 	private String commandName;
@@ -12,8 +15,8 @@ public class TypeCommand implements ArgumentCommand {
 	}
 	
 	@Override
-	public Command withArguments(String arguments) {
-		this.commandName = arguments;
+	public Command withArguments(List<String> arguments) {
+		this.commandName = arguments.get(0);
 		return this;
 	}
 	

@@ -15,11 +15,13 @@ public class ExternalCommand implements ArgumentCommand{
 	List<String> args;
 	String commandName;
 	@Override
-	public Command withArguments(String arguments) {
-		String[] parts = arguments.split("\\s+", 2);
-		this.commandName = parts[0];
-		this.args = parts.length > 1 ? Arrays.asList(parts[1].split("\\s+")) : List.of();
-		
+	public Command withArguments(List<String> arguments) {
+		this.commandName = arguments.get(0);
+		if (arguments.size()>1){
+			this.args = arguments.subList(1,arguments.size());
+		}else {
+			this.args=null;
+		}
 		return this;
 	}
 	

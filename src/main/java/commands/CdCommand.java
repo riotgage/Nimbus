@@ -5,21 +5,30 @@ import utils.ShellContext;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class CdCommand implements ArgumentCommand{
 	
-	private String targetDirectory;
+	private List<String> arguments;
 	@Override
-	public Command withArguments(String arguments) {
-		this.targetDirectory = arguments.trim().isEmpty() ? System.getProperty("user.home") : arguments.trim();
+	public Command withArguments(List<String> arguments) {
+		this.arguments = arguments;
 		return this;
 	}
 	
 	@Override
 	public String execute() {
+		if(arguments.isEmpty()){
+			return "Target directory not specified";
+		}
+		
+		if (arguments.size() > 1) {
+			return "cd: too many arguments";
+		}
 		
 		ShellContext context = ShellContext.getINSTANCE();
 		
+		String targetDirectory = arguments.get(0);
 		Path newPath = resolvePath(targetDirectory,context);
 		
 		
