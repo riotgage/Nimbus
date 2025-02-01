@@ -1,35 +1,40 @@
-[![progress-banner](https://backend.codecrafters.io/progress/shell/e43f2bf1-f681-4dbe-b4ff-0e950da96571)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
+# Nimbus Shell
 
-This is a starting point for Java solutions to the
-["Build Your Own Shell" Challenge](https://app.codecrafters.io/courses/shell/overview).
+Nimbus Shell is a lightweight command-line shell that supports basic features like `echo`, directory navigation, quoting, redirection, and autocompletion.
 
-In this challenge, you'll build your own POSIX compliant shell that's capable of
-interpreting shell commands, running external programs and builtin commands like
-cd, pwd, echo and more. Along the way, you'll learn about shell command parsing,
-REPLs, builtin commands, and more.
+## Features
 
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
+- **Echo**: Outputs text to the terminal.
+- **Navigation**: Change directories and view current directory.
+- **Quoting**: Manage strings with single and double quotes.
+- **Redirection**: Redirect output to files and other processes.
+- **Autocompletion**: Basic autocompletion for commands and paths.
+- **Many more to come**.
 
-# Passing the first stage
+## UML Diagram
 
-The entry point for your `shell` implementation is in `src/main/java/Main.java`.
-Study and uncomment the relevant code, and push your changes to pass the first
-stage:
+Here’s a basic UML diagram of the shell architecture:
 
-```sh
-git commit -am "pass 1st stage" # any msg
-git push origin master
-```
+![Nimbus Shell UML](src/docs/nimbus.svg)
 
-Time to move on to the next stage!
+## Installation
 
-# Stage 2 & beyond
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/yourusername/nimbus-shell.git
+    ```
 
-Note: This section is for stages 2 and beyond.
+2. Build the project:
+    ```bash
+    cd nimbus-shell
+    make
+    ```
 
-1. Ensure you have `mvn` installed locally
-1. Run `./your_program.sh` to run your program, which is implemented in
-   `src/main/java/Main.java`.
-1. Commit your changes and run `git push origin master` to submit your solution
-   to CodeCrafters. Test output will be streamed to your terminal.
+3. Run the shell:
+    ```bash
+    ./nimbus-shell
+    ```
+
+## License
+
+This is a personal project. Feel free to explore the code, but it's not intended for regular use.
