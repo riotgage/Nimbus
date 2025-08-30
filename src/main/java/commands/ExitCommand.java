@@ -10,7 +10,12 @@ public class ExitCommand implements ArgumentCommand{
 		this.exitCode=arguments.get(0);
 		return this;
 	}
-	
+
+	@Override
+	public String validateArguments(List<String> arguments) {
+		return null;
+	}
+
 	@Override
 	public String execute() {
 		int code = 0;

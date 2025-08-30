@@ -1,7 +1,4 @@
-import commands.ArgumentCommand;
-import commands.Command;
-import commands.CommandFactory;
-import commands.ExternalCommand;
+import commands.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +7,12 @@ public class CommandProcessor {
 	
 	private final CommandFactory commandFactory;
 	
-	public CommandProcessor(CommandFactory commandFactory) {
+	public CommandProcessor(CommandFactory commandFactory, CommandRegistry commandRegistry) {
 		this.commandFactory = commandFactory;
 	}
 	
 	public String process(String input) {
+
 		// Split input into command and arguments
 		// Lets create a list of args so we can handle single quotes and double quotes efficiently
 		
@@ -30,15 +28,21 @@ public class CommandProcessor {
 		if(command==null){
 			return commandName+": command not found";
 		}
-		else if (command instanceof ArgumentCommand argumentCommand) {
-			
-			
+
+		if (command instanceof ArgumentCommand argumentCommand) {
+
+			// Validate arguments
+			String validationError = argumentCommand.validateArguments(arguments);
+			if (validationError != null) {
+				return validationError;
+			}
 			if (command instanceof ExternalCommand){
 				command = ((ExternalCommand) command).withArguments(tokens);
 			}
 			else{
 				command = argumentCommand.withArguments(arguments);
 			}
+
 		}
 		
 		return command.execute();
@@ -72,4 +76,5 @@ public class CommandProcessor {
 		
 		return tokens;
 	}
+
 }

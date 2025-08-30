@@ -24,7 +24,12 @@ public class ExternalCommand implements ArgumentCommand{
 		}
 		return this;
 	}
-	
+
+	@Override
+	public String validateArguments(List<String> arguments) {
+		return null;
+	}
+
 	@Override
 	public String execute() {
 		String commandPath = CommandUtils.findCommandInPath(commandName);
@@ -65,7 +70,8 @@ public class ExternalCommand implements ArgumentCommand{
 		List<String> fullCommand = new ArrayList<>();
 		
 		fullCommand.add(commandName);
-		fullCommand.addAll(args);
+		if(args!=null)
+			fullCommand.addAll(args);
 		return fullCommand;
 	}
 }

@@ -2,6 +2,7 @@ package commands;
 
 import utils.ShellContext;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,17 +16,24 @@ public class CdCommand implements ArgumentCommand{
 		this.arguments = arguments;
 		return this;
 	}
-	
+
+	@Override
+	public String validateArguments(List<String> arguments) {
+		if (arguments.isEmpty()) {
+			return "Error: Missing required argument. Provide a directory to change to.";
+		}
+		if (arguments.size() > 1) {
+			return "Error: Too many arguments. Only one directory can be specified.";
+		}
+		File dir = new File(arguments.get(0));
+		if (!dir.exists() || !dir.isDirectory()) {
+			return "Error: The specified directory does not exist or is not a directory.";
+		}
+		return null;
+	}
+
 	@Override
 	public String execute() {
-		if(arguments.isEmpty()){
-			return "Target directory not specified";
-		}
-		
-		if (arguments.size() > 1) {
-			return "cd: too many arguments";
-		}
-		
 		ShellContext context = ShellContext.getINSTANCE();
 		
 		String targetDirectory = arguments.get(0);

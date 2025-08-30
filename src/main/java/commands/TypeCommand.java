@@ -19,7 +19,15 @@ public class TypeCommand implements ArgumentCommand {
 		this.commandName = arguments.get(0);
 		return this;
 	}
-	
+
+	@Override
+	public String validateArguments(List<String> arguments) {
+		if (arguments.isEmpty()) {
+			return "Error: Missing required argument. Provide a command name to check.";
+		}
+		return null;
+	}
+
 	@Override
 	public String execute() {
 		// validate the commandName
